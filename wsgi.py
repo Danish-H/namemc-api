@@ -68,17 +68,25 @@ def hello():
 def name_history(uu):
     print("Validating UUID ("+uu+")...", flush=True)
 
+    query = ""
+
     if (is_valid_uuid(uu)):
         query = uu
     else:
-        return jsonify({'error': 'incorrect_uuid'})
-        
+        # return jsonify({'error': 'incorrect_uuid'})
+        username = uu
+        response = requests.get(f"https://api.mojang.com/users/profiles/minecraft/{username}?")
+        try:
+            query = response.json()["id"]
+        except:
+            return jsonify({'error': 'invalid_query'})
+
     with open('cache.csv', 'r') as f:
         for line in f:
             if query == line.split(",")[0]:
                 return jsonify({'uuid':query,'usernames': line.replace("\n", "").split(",")[1:]})
     
-    if uu not in currentProcesses:
+    if query not in currentProcesses:
         thrd = threading.Thread(target=get_usernames, args=(query,))
         thrd.start()
         currentProcesses.append(query)
