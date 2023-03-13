@@ -86,6 +86,18 @@ def name_history(uu):
     
     return jsonify({'status':'in_progress'})
 
+
+@app.route('/entire_name_history/')
+def entire_name_history():
+    acc = []
+
+    with open ('cache.csv', 'r') as f:
+        for line in f:
+            if "," in line:
+                acc.append({'uuid':line.split(",")[0],'usernames': line.replace("\n", "").split(",")[1:]})
+
+    return jsonify({'users':acc})
+
   
 if __name__ == '__main__':
     app.run(debug = True)
