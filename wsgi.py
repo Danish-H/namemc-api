@@ -68,11 +68,10 @@ def hello():
 def name_history(uu):
     print("Validating UUID ("+uu+")...", flush=True)
 
-    if len(sys.argv) > 1:
-        if (is_valid_uuid(uu)):
-            query = uu
-        else:
-            return jsonify({'error': 'incorrect_uuid'})
+    if (is_valid_uuid(uu)):
+        query = uu
+    else:
+        return jsonify({'error': 'incorrect_uuid'})
         
     with open('cache.csv', 'r') as f:
         for line in f:
