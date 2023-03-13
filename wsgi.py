@@ -77,7 +77,7 @@ def name_history(uu):
     with open('cache.csv', 'r') as f:
         for line in f:
             if query == line.split(",")[0]:
-                return jsonify({'usernames': line.replace("\n", "").split(",")[1:]})
+                return jsonify({'uuid':query,'usernames': line.replace("\n", "").split(",")[1:]})
     
     if uu not in currentProcesses:
         thrd = threading.Thread(target=get_usernames, args=(query,))
