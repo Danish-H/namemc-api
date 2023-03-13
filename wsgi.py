@@ -50,7 +50,7 @@ def get_usernames(query):
     driver.close()
 
     with open('cache.csv', 'a') as f:
-        f.write(query + "," + ",".join(usernames) + "\n")
+        f.write(uuid.UUID(hex=query) + "," + ",".join(usernames) + "\n")
 
 
 app = Flask(__name__)
